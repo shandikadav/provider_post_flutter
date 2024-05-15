@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_post_flutter/models/http_provider.dart';
 
 class HomeProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<HttpProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text("POST - PROVIDER"),
@@ -14,28 +17,36 @@ class HomeProvider extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FittedBox(
-              child: Text(
-                "ID : Belum ada data",
-                style: TextStyle(fontSize: 20),
+              child: Consumer<HttpProvider>(
+                builder: (context, value, child) => Text(
+                  (value.data['id'] == null)
+                      ? "ID : Belum ada data"
+                      : "ID : ${value.data['id']}",
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
             ),
             SizedBox(height: 20),
             FittedBox(child: Text("Name : ", style: TextStyle(fontSize: 20))),
             FittedBox(
-              child: Text(
-                "Belum ada data",
-                style: TextStyle(
-                  fontSize: 20,
+              child: Consumer<HttpProvider>(
+                builder: (context, value, child) => Text(
+                  (value.data['name'] == null)
+                      ? "Belum ada data"
+                      : "${value.data['name']}",
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
             SizedBox(height: 20),
             FittedBox(child: Text("Job : ", style: TextStyle(fontSize: 20))),
             FittedBox(
-              child: Text(
-                "Belum ada data",
-                style: TextStyle(
-                  fontSize: 20,
+              child: Consumer<HttpProvider>(
+                builder: (context, value, child) => Text(
+                  (value.data['job'] == null)
+                      ? "Belum ada data"
+                      : "${value.data['job']}",
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
@@ -43,16 +54,20 @@ class HomeProvider extends StatelessWidget {
             FittedBox(
                 child: Text("Created At : ", style: TextStyle(fontSize: 20))),
             FittedBox(
-              child: Text(
-                "Belum ada data",
-                style: TextStyle(
-                  fontSize: 20,
+              child: Consumer<HttpProvider>(
+                builder: (context, value, child) => Text(
+                  (value.data['createdAt'] == null)
+                      ? "Belum ada data"
+                      : "${value.data['createdAt']}",
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
             SizedBox(height: 100),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                dataProvider.connectAPI('Shandika David', 'Developer');
+              },
               child: Text(
                 "POST DATA",
                 style: TextStyle(
